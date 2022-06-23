@@ -1,0 +1,107 @@
+# Set L4T_VERSION
+# ARG L4T_VERSION = r32.7.1
+# Use L4T base docker listed on https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags
+FROM nvcr.io/nvidia/l4t-base:r32.7.1
+
+# Install dependencies
+RUN apt-get update && \
+      DEBIAN_FRONTEND=noninteractive      apt-get install -y --no-install-recommends \
+      rsyslog git \
+           tzdata \
+           libgstrtspserver-1.0-0 \
+           libjansson4 \
+           libglib2.0 \
+           libjson-glib-1.0-0 \
+           librabbitmq4 \
+           gstreamer1.0-rtsp \
+           libcurl4-openssl-dev ca-certificates
+
+#Install libnvvpi1 and vpi1-dev
+ADD https://repo.download.nvidia.com/jetson/common/pool/main/libn/libnvvpi1/libnvvpi1_1.0.15_arm64.deb /root
+ADD https://repo.download.nvidia.com/jetson/common/pool/main/v/vpi1-dev/vpi1-dev_1.0.15_arm64.deb /root
+
+RUN dpkg -X /root/libnvvpi1_1.0.15_arm64.deb /
+
+RUN dpkg -X /root/vpi1-dev_1.0.15_arm64.deb /
+
+RUN rm /root/libnvvpi1_1.0.15_arm64.deb  \
+      /root/vpi1-dev_1.0.15_arm64.deb
+
+RUN ldconfig
+
+# Install DeepStreamSDK using tar package.
+ENV DS_REL_PKG deepstream_sdk_v6.0.1_jetson.tbz2
+
+COPY "${DS_REL_PKG}"  \
+/
+
+RUN DS_REL_PKG_DIR="${DS_REL_PKG%.tbz2}" && \
+cd / && \
+tar -xvf "${DS_REL_PKG}" -C / && \
+cd /opt/nvidia/deepstream/deepstream && \
+./install.sh && \
+cd / && \
+rm -rf "/${DS_REL_PKG}"
+
+RUN ldconfig
+
+CMD ["/bin/bash"]
+WORKDIR /opt/nvidia/deepstream/deepstream
+
+ENV LD_LIBRARY_PATH /usr/local/cuda-10.2/lib64
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES all
+
+RUN apt update && \
+    apt install -y \
+    python3-dev \
+    python3-gst-1.0 \
+    python-gi-dev \
+    python3-gi \
+    python3-pip \
+    python-dev \
+    python3.6-dev \
+    python3.8-dev \
+    gir1.2-gst-rtsp-server-1.0 \
+    g++ \
+    libglib2.0-dev \
+    libglib2.0-dev-bin \
+    libgirepository1.0-dev \
+    libcairo2-dev \
+    libpython3-dev \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libtool \
+    m4 \
+    autoconf \
+    automake \
+    build-essential \
+    cmake
+
+# install deepstream python bindings
+# Deepstream Python Bindings
+
+RUN cd /tmp && \
+    git clone https://github.com/NVIDIA-AI-IOT/deepstream_python_apps.git && \
+    cd deepstream_python_apps && \
+    git submodule update --init && \
+    apt-get install -y apt-transport-https ca-certificates -y && \
+    update-ca-certificates && \
+    cd 3rdparty/gst-python/ && \
+    ./autogen.sh && \
+    make && \
+    make install && \
+    cd /tmp/deepstream_python_apps/bindings/ && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DPYTHON_MAJOR_VERSION=3 -DPYTHON_MINOR_VERSION=6 \
+    -DPIP_PLATFORM=linux_aarch64 -DDS_PATH=/opt/nvidia/deepstream/deepstream/ && \
+    make && \
+    pip3 install ./pyds*.whl
+
+RUN pip3 install cython
+RUN pip3 install numpy==1.19.4
+
+COPY ./app /app
+CMD ["python3", "/app/deepstream-face-rtsp.py"]
+EXPOSE 8554
