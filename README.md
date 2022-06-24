@@ -1,5 +1,4 @@
 # deepstream-face-recognition
-Sample face-recognition app using Deepstream 6.0.1 with FaceNet on Jetson Nano (L4T Jetpack 4.6.1)
 
 <div id="top"></div>
 
@@ -13,7 +12,7 @@ This project is a sample face-recognition app deployed on Jetson Nano with the f
 3. Video output is a RTSP stream, which means that the Jetson Nano can be ran headless
 4. Detected objects are "person" and "face"
 5. Detected objects are tracked
-6. Face-recognition is done on the detected face, once per tracked face-id every X frames (to be set in the config file; 30 frames is the default)
+6. Face-recognition is done on the detected faces, once per tracked face-id every X frames (to be set in the config file; 30 frames is the default)
 
 It also features the following Deepstream python functions:
 
@@ -40,7 +39,52 @@ There are 2 different ways to run the sample app:
 
 ### Running the sample app in a Docker container
 
-The pre-built Docker container can be pulled from
+The pre-built Docker container can be pulled 
+
+'''
+docker pull kojkai/deepstream-jetson-nano:facenet
+'''
+
+And ran
+
+'''
+'''
+
+While it can be ran out of the box, the faces that are stored in the docker container are mine. 
+
+To adopt the docker image to your own use, you will need to first create a "database" of facial features using the notebook modify_keras_FaceNet.ipynb. The "database" will be in the form of a .npz file. 
+
+You will also need a list of "names" (real names or id), which corresponds to the saved facial features. Each line in the file will correspond to a single name.
+
+Replace both the files; embeddings.npz and names.txt, in /app/models with your own files
+
+### Install Deepstream SDK and its python bindings on machine
+
+Deepstream installation
+'''
+https://docs.nvidia.com/metropolis/deepstream/6.0.1/dev-guide/text/DS_Quickstart.html
+'''
+
+Deepstream python bindings installation
+'''
+https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/master/bindings
+'''
+
+(As of writing)
+Do take note that Jetpack 5 is not released for Jetson nano; Jetson nano will be running Jetpack 4.6.1, which does not supports Deepstream 6.1. Therefore, please take note when referring documents and discussions found online.
+
+Models can be found at:
+
+PeopleNet
+'''
+https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet
+'''
+
+FaceNet Weights can be found
+'''
+https://github.com/nyoki-mtl/keras-facenet
+'''
+
 
 
 ### Prerequisites
