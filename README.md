@@ -37,6 +37,8 @@ There are 2 different ways to run the sample app:
 1. Docker container
 2. Install Deepstream SDK and its python bindings on machine
 
+
+
 ### Running the sample app in a Docker container
 
 The pre-built Docker container can be pulled 
@@ -59,6 +61,8 @@ sudo docker run --runtime nvidia -it --rm --network host \
   To adopt the docker image to your own use, you will need to first create a "database" of facial features using the notebook modify_keras_FaceNet.ipynb. The "database" will be in the form of a .npz file. 
   You will also need a list of "names" (real names or id), which corresponds to the saved facial features. Each line in the file will correspond to a single name.
   Replace both the files; embeddings.npz and names.txt, in /app/models with your own files
+
+
 
 ### Install Deepstream SDK and its python bindings on machine
 
@@ -90,52 +94,32 @@ After which, you will need to first create a "database" of facial features using
 
 https://user-images.githubusercontent.com/107860554/175756912-11d471b3-d6c7-4880-805f-651735b122db.mp4
 
-
-
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- Troubleshooting -->
+## Troubleshooting
+
+- VLC player crashes/freezes while playing the stream
+
+    I had problems with VLC player, but the default video app in Ubuntu works fine
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
 
+This software contains source code provided by NVIDIA Corporation and uses third-party packages that may be distributed under
+different licensing terms.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+- https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_docker_containers.html#creating-custom-deepstream-docker-for-jetson-using-deepstreamsdk-package
+- https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-tensorrt/tags
+- https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet
+- https://github.com/nyoki-mtl/keras-facenet
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
