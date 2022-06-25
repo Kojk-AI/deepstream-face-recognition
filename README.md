@@ -37,7 +37,7 @@ There are 2 different ways to run the sample app:
 1. Docker container
 2. Install Deepstream SDK and its python bindings on machine
 
-
+<br/>
 
 ### Running the sample app in a Docker container
 
@@ -62,7 +62,7 @@ sudo docker run --runtime nvidia -it --rm --network host \
   You will also need a list of "names" (real names or id), which corresponds to the saved facial features. Each line in the file will correspond to a single name.
   Replace both the files; embeddings.npz and names.txt, in /app/models with your own files
 
-
+<br/>
 
 ### Install Deepstream SDK and its python bindings on machine
 
