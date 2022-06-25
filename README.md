@@ -41,62 +41,52 @@ There are 2 different ways to run the sample app:
 
 The pre-built Docker container can be pulled 
 
-'''
+```
 docker pull kojkai/deepstream-jetson-nano:facenet
-'''
+```
 
 And ran
 
-'''
-'''
+```
+sudo docker run --runtime nvidia -it --rm --network host \
+    -v /tmp/.X11-unix/:/tmp/.X11-unix \
+    -v /tmp/argus_socket:/tmp/argus_socket \
+    --device /dev/video0 \
+    kojkai/deepstream-jetson-nano:facenet
+```
 
-While it can be ran out of the box, the faces that are stored in the docker container are mine. 
-
-To adopt the docker image to your own use, you will need to first create a "database" of facial features using the notebook modify_keras_FaceNet.ipynb. The "database" will be in the form of a .npz file. 
-
-You will also need a list of "names" (real names or id), which corresponds to the saved facial features. Each line in the file will correspond to a single name.
-
-Replace both the files; embeddings.npz and names.txt, in /app/models with your own files
+  While it can be ran out of the box, the faces that are stored in the docker container are mine. 
+  To adopt the docker image to your own use, you will need to first create a "database" of facial features using the notebook modify_keras_FaceNet.ipynb. The "database" will be in the form of a .npz file. 
+  You will also need a list of "names" (real names or id), which corresponds to the saved facial features. Each line in the file will correspond to a single name.
+  Replace both the files; embeddings.npz and names.txt, in /app/models with your own files
 
 ### Install Deepstream SDK and its python bindings on machine
 
 Deepstream installation
-'''
+```
 https://docs.nvidia.com/metropolis/deepstream/6.0.1/dev-guide/text/DS_Quickstart.html
-'''
+```
 
 Deepstream python bindings installation
-'''
+```
 https://github.com/NVIDIA-AI-IOT/deepstream_python_apps/tree/master/bindings
-'''
+```
 
 (As of writing)
 Do take note that Jetpack 5 is not released for Jetson nano; Jetson nano will be running Jetpack 4.6.1, which does not supports Deepstream 6.1. Therefore, please take note when referring documents and discussions found online.
 
 Models can be found at:
 
-PeopleNet
-'''
-https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet
-'''
+PeopleNet https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/models/peoplenet
 
-FaceNet Weights can be found
-'''
-https://github.com/nyoki-mtl/keras-facenet
-'''
+FaceNet Weights can be found https://github.com/nyoki-mtl/keras-facenet
 
+Convert the FaceNet weights into a saved_model using the notebook modify_keras_FaceNet.ipynb and convert it into onnx format following https://github.com/onnx/tensorflow-onnx. Make sure the .onnx file follows the name in the config file. Place the models in the models folder. Do note that during the 1st run of the script, the tensorrt engine file will be generated, taking more time to load. However, once the engine file is generated and reflected in the config file, subsequent runs will load the engine files directly.
 
-
-### Prerequisites
-
-### Installation
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
+After which, you will need to first create a "database" of facial features using the notebook modify_keras_FaceNet.ipynb. The "database" will be in the form of a .npz file. You will also need a list of "names" (real names or id), which corresponds to the saved facial features. Each line in the file will correspond to a single name. Place both the files; embeddings.npz and names.txt, in /app/models together with the models.
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Demo
 
 
 
