@@ -115,7 +115,7 @@ different licensing terms.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+## References
 
 - https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_docker_containers.html#creating-custom-deepstream-docker-for-jetson-using-deepstreamsdk-package
 - https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-tensorrt/tags
