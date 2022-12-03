@@ -1,5 +1,3 @@
-# Set L4T_VERSION
-# ARG L4T_VERSION = r32.7.1
 # Use L4T base docker listed on https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags
 FROM nvcr.io/nvidia/l4t-base:r32.7.1
 
